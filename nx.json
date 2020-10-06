@@ -22,5 +22,22 @@
       }
     }
   },
-  "projects": {}
+  "projects": {
+    "api": {
+      "tags": []
+    },
+    "app": {
+      "tags": []
+    },
+    "app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["app"]
+    },
+    "data-access": {
+      "tags": []
+    },
+    "feature-sets": {
+      "tags": []
+    }
+  }
 }
