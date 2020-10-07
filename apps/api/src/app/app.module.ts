@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CountryResolver } from './country.resolver';
 import { SetResolver } from './set.resolver';
 
 @Module({
@@ -13,6 +14,6 @@ import { SetResolver } from './set.resolver';
     })
   ],
   controllers: [AppController],
-  providers: [AppService, SetResolver]
+  providers: [AppService, SetResolver, CountryResolver]
 })
 export class AppModule { }

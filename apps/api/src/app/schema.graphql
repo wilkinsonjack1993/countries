@@ -12,3 +12,19 @@ type Query {
 type Mutation {
     addSet(name: String, year: String, numParts: Int): Set
 }
+
+type Country {
+    id: Int!
+    name: String
+    capital: String
+    continent: String
+}
+
+
+type Query {
+    allCountries: [Country]
+}
+
+type Mutation {
+    addCountry(name: String, capital: String, continent: String): Set
+}
