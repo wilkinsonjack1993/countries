@@ -1,0 +1,6 @@
+type Currency {
+    id: Int! 
+    name: String
+    symbol: String
+    abbreviation: String
+}

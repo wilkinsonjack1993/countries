@@ -23,9 +23,6 @@
     }
   },
   "projects": {
-    "api": {
-      "tags": []
-    },
     "app": {
       "tags": []
     },
@@ -37,6 +34,9 @@
       "tags": []
     },
     "feature-sets": {
+      "tags": []
+    },
+    "country-api": {
       "tags": []
     }
   }

@@ -1,0 +1,21 @@
+type Country {
+    id: Int! 
+    name: String
+    capital: String
+    continent: Continent
+    currencies: [Currency]
+}
+
+enum Continent {
+  EUROPE
+  NORTH_AMERICA
+  SOUTH_AMERICA
+  AFRICA
+  ASIA
+  OCEANIA
+  ANTARTICA
+}
+
+type Query {
+    country(id: Int!): Country
+}
