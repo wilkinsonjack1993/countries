@@ -26,6 +26,7 @@ export class Country {
 
 export abstract class IQuery {
     country?: Country;
+    allCountries?: Country[];
 }
 
 export class Currency {

@@ -19,3 +19,11 @@ enum Continent {
 type Query {
     country(id: Int!): Country
 }
+
+type Query {
+    allCountries: [Country]
+}
+
+type Mutation {
+    addCountry(name: String, continent: Continent, capital: String, currencies: [Int]): Country
+}

@@ -26,6 +26,11 @@ export class Country {
 
 export abstract class IQuery {
     country?: Country;
+    allCountries?: Country[];
+}
+
+export abstract class IMutation {
+    addCountry?: Country;
 }
 
 export class Currency {

@@ -22,9 +22,15 @@ const currencies = [
         abbreviation: 'GBP'
     },
     {
-        id: 1,
+        id: 2,
         name: 'scottish pounds',
         symbol: '£S',
         abbreviation: 'SP'
+    },
+    {
+        id: 3,
+        name: 'Australian Dollar',
+        symbol: 'A$',
+        abbreviation: 'AUD'
     }
 ] as Currency[]

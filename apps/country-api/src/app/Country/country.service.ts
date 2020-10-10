@@ -8,12 +8,32 @@ export class CountryService {
         private currencyService: CurrencyService
     ) { return; }
 
-    async findOneById(id: number): Promise<Country> {
+    public async findOneById(id: number): Promise<Country> {
         const country = countries.find(country => country.id === id);
         const { currencies: currencyIds, ...otherVariables } = country
         const currencies = await this.currencyService.findByIds(currencyIds);
         const populatedCountry = { ...otherVariables, currencies } as Country;
         return Promise.resolve(populatedCountry);
+    }
+
+    public findAll(): Promise<Country[]> {
+        return Promise.all(countries.map(async country => {
+            const { currencies: currencyIds, ...otherVariables } = country
+            const currencies = await this.currencyService.findByIds(currencyIds);
+            return { ...otherVariables, currencies } as Country;
+        }));
+    }
+
+    public addCountry(
+        name: string,
+        continent: Continent,
+        capital: string,
+        currencies: number[]
+    ): Promise<Country> {
+        const id = countries.length + 1
+        const newCountry = { id, name, continent, capital, currencies };
+        countries.push(newCountry);
+        return this.findOneById(id);
     }
 }
 
