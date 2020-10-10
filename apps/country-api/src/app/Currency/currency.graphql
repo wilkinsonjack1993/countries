@@ -4,3 +4,15 @@ type Currency {
     symbol: String
     abbreviation: String
 }
+
+type Query {
+    currency(id: Int!): Currency
+}
+
+type Query {
+    allCurrencies(id: Int!): [Currency]
+}
+
+type Mutation {
+    addCurrency(name: String, symbol: String, abbreviation: String): Currency
+}

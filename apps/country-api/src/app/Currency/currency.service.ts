@@ -12,6 +12,17 @@ export class CurrencyService {
     findByIds(ids: number[]): Promise<Currency[]> {
         return Promise.all(ids.map(id => this.findOneById(id)));
     }
+
+    findAll(): Promise<Currency[]> {
+        return Promise.resolve(currencies);
+    }
+
+    addCurrency(name: string, symbol: string, abbreviation: string) {
+        const id = currencies.length + 1;
+        const newCurrency = { id, name, symbol, abbreviation } as Currency;
+        currencies.push(newCurrency);
+        return Promise.resolve(newCurrency);
+    }
 }
 
 const currencies = [

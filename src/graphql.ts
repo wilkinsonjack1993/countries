@@ -27,10 +27,13 @@ export class Country {
 export abstract class IQuery {
     country?: Country;
     allCountries?: Country[];
+    currency?: Currency;
+    allCurrencies?: Currency[];
 }
 
 export abstract class IMutation {
     addCountry?: Country;
+    addCurrency?: Currency;
 }
 
 export class Currency {
