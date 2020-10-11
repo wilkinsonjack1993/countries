@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { Continent, Currency } from '../../graphql';
+import { Currency } from '../../graphql';
 import { CurrencyService } from './currency.service';
 
 @Resolver('Currency')

@@ -1,5 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { Continent } from '../../graphql';
+import { Currency } from '../Currency/currency.entity';
 import { CountryService } from './country.service';
 
 @Resolver('Country')

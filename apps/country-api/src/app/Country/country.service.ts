@@ -1,55 +1,61 @@
 import { Injectable } from '@nestjs/common';
-import { Continent, Country } from '../../graphql';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Continent, Country, Currency } from '../../graphql';
 import { CurrencyService } from '../Currency/currency.service';
+import { Country as CountryEntity } from './country.entity';
 
 @Injectable()
 export class CountryService {
     constructor(
-        private currencyService: CurrencyService
+        @InjectRepository(CountryEntity)
+        private countryRepository: Repository<CountryEntity>,
+        private currencyService: CurrencyService,
     ) { return; }
 
     public async findOneById(id: number): Promise<Country> {
-        const country = countries.find(country => country.id === id);
-        const { currencies: currencyIds, ...otherVariables } = country
-        const currencies = await this.currencyService.findByIds(currencyIds);
-        const populatedCountry = { ...otherVariables, currencies } as Country;
-        return Promise.resolve(populatedCountry);
+        const country = await this.countryRepository.findOne(id);
+        const mappedCountry = this.mapDBtoObject(country);
+        return Promise.resolve(mappedCountry);
     }
 
-    public findAll(): Promise<Country[]> {
-        return Promise.all(countries.map(async country => {
-            const { currencies: currencyIds, ...otherVariables } = country
-            const currencies = await this.currencyService.findByIds(currencyIds);
-            return { ...otherVariables, currencies } as Country;
-        }));
+    public async findAll(): Promise<Country[]> {
+        const countries = await this.countryRepository.find()
+        return countries.map(country => this.mapDBtoObject(country));
     }
 
-    public addCountry(
+    public async addCountry(
         name: string,
         continent: Continent,
         capital: string,
-        currencies: number[]
+        currencyIds: number[]
     ): Promise<Country> {
-        const id = countries.length + 1
-        const newCountry = { id, name, continent, capital, currencies };
-        countries.push(newCountry);
-        return this.findOneById(id);
+        console.log('add country', currencyIds)
+        const currencies: Currency[] = await this.currencyService.findByIds(currencyIds);
+        console.log('currencies', currencies)
+        return await this.countryRepository.save({ name, continent, capital, currencies });
+    }
+
+    private mapDBtoObject(dbEntity: CountryEntity): Country {
+        const continent: Continent = Continent[dbEntity.continent];
+        const country: Country = { ...dbEntity, continent };
+        return country;
     }
 }
 
-const countries = [
-    {
-        id: 1,
-        name: 'England',
-        continent: Continent.EUROPE as Continent,
-        capital: 'London',
-        currencies: [1]
-    },
-    {
-        id: 2,
-        name: 'Scotland',
-        continent: Continent.EUROPE as Continent,
-        capital: 'Edinburgh',
-        currencies: [1, 2]
-    }
-]
+// const countries = [
+//     {
+//         id: 1,
+//         name: 'England',
+//         continent: Continent.EUROPE as Continent,
+//         capital: 'London',
+//         currencies: [1]
+//     },
+//     {
+//         id: 2,
+//         name: 'Scotland',
+//         continent: Continent.EUROPE as Continent,
+//         capital: 'Edinburgh',
+//         currencies: [1, 2]
+//     }
+// ]

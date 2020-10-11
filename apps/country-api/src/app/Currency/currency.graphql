@@ -10,7 +10,7 @@ type Query {
 }
 
 type Query {
-    allCurrencies(id: Int!): [Currency]
+    allCurrencies: [Currency]
 }
 
 type Mutation {

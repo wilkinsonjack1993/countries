@@ -1,47 +1,50 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Currency } from '../../graphql';
+import { Currency as CurrencyEntity } from './currency.entity';
 
 @Injectable()
 export class CurrencyService {
-    constructor() { return; }
+    constructor(
+        @InjectRepository(CurrencyEntity)
+        private currencyRepository: Repository<CurrencyEntity>
+    ) { return; }
 
-    findOneById(id: number): Promise<Currency> {
-        return Promise.resolve(currencies.find(currency => currency.id === id));
+    public findOneById(id: number): Promise<Currency> {
+        return this.currencyRepository.findOne(id);
     }
 
-    findByIds(ids: number[]): Promise<Currency[]> {
+    public findByIds(ids: number[]): Promise<Currency[]> {
         return Promise.all(ids.map(id => this.findOneById(id)));
     }
 
-    findAll(): Promise<Currency[]> {
-        return Promise.resolve(currencies);
+    public findAll(): Promise<Currency[]> {
+        return this.currencyRepository.find();
     }
 
-    addCurrency(name: string, symbol: string, abbreviation: string) {
-        const id = currencies.length + 1;
-        const newCurrency = { id, name, symbol, abbreviation } as Currency;
-        currencies.push(newCurrency);
-        return Promise.resolve(newCurrency);
+    public async addCurrency(name: string, symbol: string, abbreviation: string): Promise<Currency> {
+        return this.currencyRepository.save({ name, symbol, abbreviation });
     }
 }
 
-const currencies = [
-    {
-        id: 1,
-        name: 'pounds',
-        symbol: '£',
-        abbreviation: 'GBP'
-    },
-    {
-        id: 2,
-        name: 'scottish pounds',
-        symbol: '£S',
-        abbreviation: 'SP'
-    },
-    {
-        id: 3,
-        name: 'Australian Dollar',
-        symbol: 'A$',
-        abbreviation: 'AUD'
-    }
-] as Currency[]
+// const currencies = [
+//     {
+//         id: 1,
+//         name: 'pounds',
+//         symbol: '£',
+//         abbreviation: 'GBP'
+//     },
+//     {
+//         id: 2,
+//         name: 'scottish pounds',
+//         symbol: '£S',
+//         abbreviation: 'SP'
+//     },
+//     {
+//         id: 3,
+//         name: 'Australian Dollar',
+//         symbol: 'A$',
+//         abbreviation: 'AUD'
+//     }
+// ] as Currency[]
